@@ -7,11 +7,16 @@ export default {
       id: "Hero",
       sectionIdx: 1,
       props: {
-        heroTitle: "Isomer Next Supercharge your websites",
+        heroTitle: "Isomer Next 🚀 Supercharge your websites",
         heroCaption: "This is Isomer Next - the future of government websites",
-        logoUrl: "http://placehold.it/600x600",
+        logoUrl: "https://avatars.githubusercontent.com/u/40887764?s=200&v=4",
         buttonLabel: "Learn more",
-        nav: [{ name: "Link 1", href: "http://google.com" }],
+        nav: [
+          { name: "About Us", href: "http://google.com" },
+          { name: "Contact Us", href: "http://google.com" },
+          { name: "Docs", href: "http://google.com" },
+          { name: "Get Started", href: "http://google.com" },
+        ],
       },
     },
     {
