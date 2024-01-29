@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Transition, Disclosure, Menu } from "@headlessui/react";
 import {
   Bars3Icon,
   CalendarIcon,
@@ -9,6 +9,7 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  BellIcon,
 } from "@heroicons/react/24/outline";
 import CodeEditor from "@monaco-editor/react";
 
@@ -41,6 +42,18 @@ export default function Editor() {
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const handlePublish = async () => {
+    // TODO: publish this new schema to the permalink
+    const response = await fetch("/api/publish", {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedSchema), // body data type must match "Content-Type" header
+    });
+    return response.json();
   };
 
   return (
@@ -146,7 +159,7 @@ export default function Editor() {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:pb-4">
+        {/* <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:pb-4">
           <div className="flex h-16 shrink-0 items-center justify-center">
             <img
               className="h-8 w-auto"
@@ -199,10 +212,18 @@ export default function Editor() {
               alt=""
             />
           </a>
-        </div>
+        </div> */}
+        <button
+          type="button"
+          className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={handlePublish}
+        >
+          Publish
+        </button>
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-1 overflow-auto h-screen sticky top-0">
             {/* Fixed CodeEditor with vertical scrolling */}
+
             <CodeEditor
               height="100%"
               defaultLanguage="json"
