@@ -1,5 +1,5 @@
 import { RenderEngine } from "@isomerpages/isomer-components";
-import schema from "../../schema/schema";
+import schema from "../../schema/permalink/schema";
 
 export default function Page() {
   return (
