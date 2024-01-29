@@ -200,26 +200,21 @@ export default function Editor() {
             />
           </a>
         </div>
-
-        <main className="lg:pl-20">
-          <div className="xl:pl-96">
-            <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
-              {/* Main area */}
-              <Preview schema={editedSchema} />
-            </div>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-1 overflow-auto h-screen sticky top-0">
+            {/* Fixed CodeEditor with vertical scrolling */}
+            <CodeEditor
+              height="100%"
+              defaultLanguage="json"
+              defaultValue={JSON.stringify(schema, null, 2)}
+              onChange={handleEditorChange}
+            />
           </div>
-        </main>
-
-        <aside className="fixed inset-y-0 left-20 hidden w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
-          {/* Secondary column (hidden on smaller screens) */}
-          <CodeEditor
-            height="100%"
-            defaultLanguage="json"
-            defaultValue={JSON.stringify(schema, null, 2)}
-            onChange={handleEditorChange}
-          />
-          <button>Publish</button>
-        </aside>
+          <div className="col-span-2 overflow-auto">
+            {/* Independently scrollable Preview */}
+            <Preview schema={editedSchema} />
+          </div>
+        </div>
       </div>
     </>
   );
