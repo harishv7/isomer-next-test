@@ -47,10 +47,7 @@ export default function Preview() {
 }`;
 
     // Define the file path for index.tsx
-    const indexPath = path.join(
-      process.cwd(),
-      `src/pages/${permalink}/index.tsx`
-    );
+    const indexPath = path.join(process.cwd(), `src/app/${permalink}/page.tsx`);
     const indexDirectory = path.dirname(indexPath);
 
     // Create the directories and write the files
