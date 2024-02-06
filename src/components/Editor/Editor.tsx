@@ -10,19 +10,21 @@ import {
   UsersIcon,
   XMarkIcon,
   BellIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline";
 import CodeEditor from "@monaco-editor/react";
 
 import schema from "../../schema/permalink/schema";
+// import schema from "../../schema/isomer/schema";
 import Preview from "../Preview/Preview";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "Hero", href: "Hero", icon: PlusIcon, current: false },
+  { name: "InfoPic", href: "InfoPic", icon: UsersIcon, current: false },
+  { name: "Footer", href: "Footer", icon: FolderIcon, current: false },
+  // { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
+  // { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
+  // { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
 ];
 
 function classNames(...classes: any) {
@@ -44,6 +46,47 @@ export default function Editor() {
     }
   };
 
+  const handleAddNewBlock = (blockId: string) => {
+    console.log(`Adding new ${blockId}`);
+    let newComponents = [...editedSchema.components];
+    switch (blockId) {
+      case "Hero":
+        newComponents.push({
+          id: "Hero",
+          sectionIdx: 6,
+          props: {
+            heroTitle: "",
+            heroCaption: "",
+            logoUrl: "",
+            buttonLabel: "",
+            nav: [],
+          },
+        });
+        break;
+      case "InfoPic":
+        newComponents.push({
+          id: "InfoPic",
+          sectionIdx: 7,
+          props: {
+            title: "This is a title",
+            subtitle: "This is a subtitle",
+            imageUrl: "https://picsum.photos/600",
+            description:
+              "Quisque in dignissim elit. Praesent consectetur dolor eget cursus eleifend. Nulla vel laoreet magna. Vestibulum mollis risus ut erat auctor",
+            buttonLabel: "Check this!",
+            buttonUrl: "http://google.com",
+          },
+        });
+        break;
+      default:
+        break;
+    }
+
+    setEditedSchema({
+      ...editedSchema,
+      components: [...newComponents],
+    });
+  };
   const handlePublish = async () => {
     // TODO: publish this new schema to the permalink
     const response = await fetch("/api/publish", {
@@ -124,27 +167,29 @@ export default function Editor() {
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        src="https://avatars.githubusercontent.com/u/40887764?s=200&v=4"
                         alt="Your Company"
                       />
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="-mx-2 flex-1 space-y-1">
                         {navigation.map((item) => (
-                          <li key={item.name}>
+                          <li
+                            key={item.name}
+                            onClick={() => handleAddNewBlock(item.href)}
+                          >
                             <a
-                              href={item.href}
                               className={classNames(
                                 item.current
                                   ? "bg-gray-800 text-white"
                                   : "text-gray-400 hover:text-white hover:bg-gray-800",
-                                "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer"
                               )}
                             >
-                              <item.icon
+                              {/* <item.icon
                                 className="h-6 w-6 shrink-0"
                                 aria-hidden="true"
-                              />
+                              /> */}
                               {item.name}
                             </a>
                           </li>
@@ -159,35 +204,45 @@ export default function Editor() {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        {/* <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:pb-4">
+        <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:pb-4">
           <div className="flex h-16 shrink-0 items-center justify-center">
             <img
               className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+              src="https://avatars.githubusercontent.com/u/40887764?s=200&v=4"
               alt="Your Company"
             />
           </div>
           <nav className="mt-8">
             <ul role="list" className="flex flex-col items-center space-y-1">
               {navigation.map((item) => (
-                <li key={item.name}>
+                <li
+                  onClick={() => handleAddNewBlock(item.href)}
+                  key={item.name}
+                >
                   <a
-                    href={item.href}
                     className={classNames(
                       item.current
                         ? "bg-gray-800 text-white"
                         : "text-gray-400 hover:text-white hover:bg-gray-800",
-                      "group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold"
+                      "group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer"
                     )}
                   >
-                    <item.icon
+                    {/* <item.icon
                       className="h-6 w-6 shrink-0"
                       aria-hidden="true"
-                    />
-                    <span className="sr-only">{item.name}</span>
+                    /> */}
+                    <span>{item.name}</span>
                   </a>
                 </li>
               ))}
+              <a
+                className={
+                  "text-gray-400 hover:text-white hover:bg-gray-800 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer"
+                }
+                onClick={handlePublish}
+              >
+                Publish
+              </a>
             </ul>
           </nav>
         </div>
@@ -212,16 +267,16 @@ export default function Editor() {
               alt=""
             />
           </a>
-        </div> */}
-        <button
+        </div>
+        {/* <button
           type="button"
-          className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-20"
           onClick={handlePublish}
         >
           Publish
-        </button>
+        </button> */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-1 overflow-auto h-screen sticky top-0">
+          <div className="col-span-1 overflow-auto h-screen sticky top-0 ml-10">
             {/* Fixed CodeEditor with vertical scrolling */}
 
             <CodeEditor
@@ -229,6 +284,7 @@ export default function Editor() {
               defaultLanguage="json"
               defaultValue={JSON.stringify(schema, null, 2)}
               onChange={handleEditorChange}
+              value={JSON.stringify(editedSchema, null, 2)}
             />
           </div>
           <div className="col-span-2 overflow-auto">

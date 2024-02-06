@@ -32,7 +32,7 @@ export default async function handler(
 
     // Construct the file content for index.tsx
     const indexContent = `import { RenderEngine } from "@isomerpages/isomer-components";
-import { schema } from "@/schema/${permalink}/schema";
+import { schema } from "@/schema${permalink}/schema";
 
 export default function Preview() {
   const renderSchema = schema;
